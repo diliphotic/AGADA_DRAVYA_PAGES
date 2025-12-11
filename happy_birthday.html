@@ -3,123 +3,160 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Happy Birthday — Shweta 🎂</title>
+  <title>Pro Interactive Cake — Cut & Wish (Shweta)</title>
   <style>
     :root{
-      --bg:#061026;
+      --bg:#051024;
       --card:#071428;
       --accent:#ff6b6b;
       --accent2:#ffd166;
       --cream:#fff5e6;
       --choc:#6b3520;
-      --glass: rgba(255,255,255,0.06);
+      --shadow: rgba(2,6,23,0.7);
+      --glass: rgba(255,255,255,0.04);
       --radius:18px;
-      --glass-2: rgba(255,255,255,0.03);
     }
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;background:radial-gradient(900px 400px at 10% 12%, rgba(255,107,107,0.05), transparent), linear-gradient(180deg,var(--bg), #04101a 70%);color:#f2f8ff}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,Arial;background:radial-gradient(1000px 420px at 12% 10%, rgba(255,107,107,0.04), transparent), linear-gradient(180deg,var(--bg), #03101a 80%);color:#edf6ff}
     .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px}
 
-    .stage{width:980px;max-width:96vw;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:22px;padding:22px;box-shadow:0 18px 60px rgba(2,6,23,0.7);backdrop-filter: blur(8px);display:grid;grid-template-columns:480px 1fr;gap:22px;align-items:center}
+    .stage{width:1060px;max-width:96vw;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:22px;padding:22px;box-shadow:0 28px 90px var(--shadow);backdrop-filter: blur(8px);display:grid;grid-template-columns:540px 1fr;gap:24px;align-items:center}
 
-    /* Left: cake area */
-    .canvas{background:linear-gradient(180deg,#071428 0%, #051427 100%);border-radius:16px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;overflow:hidden}
-    .stage-title{font-weight:800;font-size:20px;color:#fff}
+    .canvas{background:linear-gradient(180deg,#071428 0%, #041427 100%);border-radius:16px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;overflow:hidden}
+    .stage-title{font-weight:900;font-size:20px;color:#fff}
     .sub{font-size:13px;color:rgba(230,238,248,0.78)}
 
-    .plate{width:420px;height:260px;display:flex;align-items:center;justify-content:center;position:relative}
+    /* Cake area */
+    .plate{width:560px;height:320px;display:flex;align-items:center;justify-content:center;position:relative}
 
-    .cake{position:relative;width:300px;height:200px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:10px;z-index:30;transition:transform .9s cubic-bezier(.2,.9,.2,1)}
-    .layer{width:300px;height:54px;border-radius:28px;background:linear-gradient(180deg,var(--choc), #3f1f12);position:relative;box-shadow:inset 0 -12px 28px rgba(0,0,0,0.45);overflow:visible;display:flex;align-items:center;justify-content:center}
-    .frost-top{position:absolute;left:16px;right:16px;top:-20px;height:36px;border-radius:18px;background:linear-gradient(90deg,var(--cream),var(--accent2));box-shadow:0 10px 26px rgba(0,0,0,0.25)}
+    .cake-wrap{position:relative;width:380px;height:240px;z-index:30;pointer-events:auto}
+    .cake-base{position:absolute;left:0;top:0;width:100%;height:100%;border-radius:26px;display:block}
 
-    .candles{position:absolute;top:-52px;display:flex;gap:12px}
-    .candle{width:12px;height:36px;border-radius:6px;background:linear-gradient(180deg,#fff7e1,#fff1b3);box-shadow:0 6px 18px rgba(0,0,0,0.25);position:relative;display:flex;align-items:flex-start;justify-content:center}
-    .flame{width:9px;height:12px;border-radius:50% 50% 50% 50%;background: radial-gradient(circle at 30% 30%, #fff6b8,#ffd166 40%, #ff7b6b 80%);transform:translateY(-7px);box-shadow:0 8px 26px rgba(255,110,75,0.45)}
+    /* We'll build the cake as three stacked layers (frosting, sponge layers) inside an inner container */
+    .cake-inner{position:absolute;left:50%;top:50%;transform:translate(-50%,-40%);width:320px;height:180px;display:block}
 
-    .plate-disc{position:absolute;bottom:10px;width:520px;height:64px;border-radius:999px;background:linear-gradient(180deg,#ffffff11,#00000000);box-shadow:0 10px 40px rgba(2,6,23,0.6);filter: blur(6px);}
+    /* halves */
+    .half{position:absolute;top:0;bottom:0;overflow:hidden;display:block}
+    .half .layer{
+      position:absolute;left:0;right:0;border-radius:30px;box-shadow:inset 0 -12px 28px rgba(0,0,0,0.45);
+    }
+    /* frosting layer at top */
+    .layer.frost{height:48px;top:-10px;background:linear-gradient(90deg,var(--cream),var(--accent2));z-index:40;box-shadow:0 10px 20px rgba(0,0,0,0.25)}
+    .layer.sponge1{height:56px;top:44px;background:linear-gradient(180deg,#f5d7c8,#eebfa7);z-index:30}
+    .layer.sponge2{height:56px;top:98px;background:linear-gradient(180deg,#f0c1a6,#d89578);z-index:20}
 
-    /* Knife and action */
-    .controls{display:flex;flex-direction:column;gap:12px;padding:8px;width:100%;align-items:center}
-    .btn{background:linear-gradient(90deg,var(--accent),#ff8a8a);border:none;color:#071428;padding:12px 18px;border-radius:12px;font-weight:800;cursor:pointer;box-shadow:0 10px 28px rgba(255,107,107,0.14);transition:transform .12s}
-    .btn:active{transform:translateY(2px) scale(.995)}
-    .btn.secondary{background:linear-gradient(90deg,#ffd166,#fff2c9);color:#0b1220}
+    /* decorative chocolate drip */
+    .drip{position:absolute;left:0;right:0;top:24px;height:28px;background:linear-gradient(180deg,#3f1f12,#2b140a);border-radius:20px z-index:35;opacity:0.95}
 
-    .knife{width:220px;height:46px;border-radius:999px;display:flex;align-items:center;gap:12px;padding:8px 12px;background:linear-gradient(90deg,#ffffff10,#ffffff06);border:1px solid rgba(255,255,255,0.04)}
-    .knife .blade{flex:1;height:12px;background:linear-gradient(90deg,#e8f1ff,#c6d6ef);border-radius:8px}
+    /* candles */
+    .candles{position:absolute;left:50%;top:-30px;transform:translateX(-50%);display:flex;gap:14px;z-index:60}
+    .candle{width:10px;height:36px;border-radius:6px;background:linear-gradient(180deg,#fff7e1,#fff1b3);box-shadow:0 6px 18px rgba(0,0,0,0.25);display:flex;align-items:flex-start;justify-content:center}
+    .flame{width:8px;height:10px;border-radius:50% 50% 50% 50%;background: radial-gradient(circle at 30% 30%, #fff6b8,#ffd166 40%, #ff7b6b 80%);margin-top:-6px;box-shadow:0 8px 26px rgba(255,110,75,0.45);animation:flame 900ms infinite}
+    @keyframes flame{0%{transform:translateY(0) scale(1)}50%{transform:translateY(-2px) scale(1.02)}100%{transform:translateY(0) scale(1)}}
 
-    /* Right: wish + decorations */
+    /* plate shadow */
+    .plate-shadow{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:520px;height:86px;border-radius:999px;box-shadow:0 28px 64px rgba(2,6,23,0.6);filter: blur(10px);opacity:0.7}
+
+    /* cut visuals */
+    .slice-edge{position:absolute;width:26px;top:0;bottom:0;background:linear-gradient(90deg,#fff0d6,#ffd9b0);border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.3);transform-origin:center;}
+    .crumb{position:absolute;background:#d79a78;border-radius:4px;opacity:0.95}
+
+    /* animation states */
+    .cutting .half-left.animate{transform-origin:right center;transform:translateX(-40px) rotate(-8deg);transition:transform 900ms cubic-bezier(.2,.9,.2,1)}
+    .cutting .half-right.animate{transform-origin:left center;transform:translateX(40px) rotate(8deg);transition:transform 900ms cubic-bezier(.2,.9,.2,1)}
+    .cutting .slice.animate{transform: translateY(-40px) translateX(18px) rotate(-6deg);opacity:0;transition:all 900ms cubic-bezier(.2,.9,.2,1)}
+
+    /* wish panel */
     .panel{padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:12px;display:flex;flex-direction:column;gap:14px}
     .wish-card{width:100%;height:320px;border-radius:14px;background:linear-gradient(180deg,#071428, #052032);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:18px;box-shadow:0 12px 40px rgba(2,6,23,0.6);position:relative;overflow:hidden}
-
-    .wish-title{font-size:32px;font-weight:900;letter-spacing:0.6px;color:var(--accent2);text-align:center;opacity:0;transform:translateY(18px) scale(.98);transition:all .9s cubic-bezier(.2,.9,.2,1)}
+    .wish-title{font-size:34px;font-weight:900;letter-spacing:0.6px;color:var(--accent2);text-align:center;opacity:0;transform:translateY(18px) scale(.98);transition:all .9s cubic-bezier(.2,.9,.2,1)}
     .wish-sub{font-size:15px;color:rgba(230,238,248,0.86);opacity:0;transform:translateY(12px);transition:all .9s .12s cubic-bezier(.2,.9,.2,1)}
 
-    /* Balloons */
+    /* balloons & confetti */
     .balloon-wrap{position:absolute;inset:0;pointer-events:none;z-index:40}
-    .balloon{position:absolute;width:64px;height:84px;border-radius:50% 50% 46% 46%;display:flex;align-items:center;justify-content:center;transform-origin:center bottom;opacity:0}
-    .balloon::after{content:'';position:absolute;bottom:-18px;left:50%;width:2px;height:18px;background:linear-gradient(180deg,#333,#000);transform:translateX(-50%)}
+    .balloon{position:absolute;width:72px;height:96px;border-radius:50% 50% 44% 44%;display:flex;align-items:center;justify-content:center;transform-origin:center bottom;opacity:0}
+    .balloon::after{content:'';position:absolute;bottom:-24px;left:50%;width:2px;height:24px;background:linear-gradient(180deg,#333,#000);transform:translateX(-50%)}
     .balloon.blue{background:linear-gradient(180deg,#7cc6ff,#5aaef0)}
     .balloon.pink{background:linear-gradient(180deg,#ff9ac1,#ff6b9a)}
     .balloon.yellow{background:linear-gradient(180deg,#ffe28a,#ffd166)}
     .balloon.green{background:linear-gradient(180deg,#9ef5c1,#5fdd9a)}
 
-    /* Confetti pieces */
     .confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:50}
     .confetti-piece{position:absolute;width:10px;height:14px;opacity:0;transform-origin:center;}
 
-    /* States after cut */
-    .cut .layer{transform:translateX(0)}
-    .cut .layer.left{transform:translateX(-220px) rotate(-12deg)}
-    .cut .layer.right{transform:translateX(220px) rotate(12deg)}
-    .cut .wish-title{opacity:1;transform:translateY(0) scale(1)}
-    .cut .wish-sub{opacity:1;transform:translateY(0)}
+    .showWish .wish-title{opacity:1;transform:translateY(0) scale(1)}
+    .showWish .wish-sub{opacity:1;transform:translateY(0)}
 
-    /* small responsive */
-    @media (max-width:920px){.stage{grid-template-columns:1fr;}.plate{height:220px}.wish-card{height:240px}}
+    @media (max-width:980px){.stage{grid-template-columns:1fr;}.plate{height:260px}.wish-card{height:240px}}
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="stage" id="stage">
       <div class="canvas">
-        <div style="text-align:center">
-          <div class="stage-title">Make a wish for <span style="color:var(--accent2)">Shweta</span> 🎉</div>
-          <div class="sub">Tap <strong>Cut Cake</strong> to slice the cake — balloons & confetti will celebrate!</div>
+        <div style="text-align:center;width:100%">
+          <div class="stage-title">Pro Interactive Cake — Shweta</div>
+          <div class="sub">Tap / Click on the cake where you want to cut — the slice will animate realistically from the touch point. Balloons & confetti burst from the cut.</div>
         </div>
 
         <div class="plate">
-          <div class="cake" id="cake">
-            <div class="candles">
-              <div class="candle"><div class="flame"></div></div>
-              <div class="candle"><div class="flame"></div></div>
-              <div class="candle"><div class="flame"></div></div>
+          <div class="cake-wrap" id="cakeWrap">
+            <div class="cake-inner" id="cakeInner">
+              <!-- left & right halves (clipped by JS widths) -->
+              <div class="half half-left" id="halfLeft" style="left:0;width:50%">
+                <div class="layer frost" style="right:0;left:-20px"></div>
+                <div class="drip" style="left:40px;right:40px;top:28px;height:30px;border-radius:18px;"></div>
+                <div class="layer sponge1" style="left:0;right:-20px"></div>
+                <div class="layer sponge2" style="left:0;right:-20px"></div>
+              </div>
+
+              <div class="half half-right" id="halfRight" style="right:0;width:50%">
+                <div class="layer frost" style="left:0;right:-20px"></div>
+                <div class="drip" style="left:40px;right:40px;top:28px;height:30px;border-radius:18px;"></div>
+                <div class="layer sponge1" style="left:-20px;right:0"></div>
+                <div class="layer sponge2" style="left:-20px;right:0"></div>
+              </div>
+
+              <div class="slice-edge" id="sliceEdge" style="display:none"></div>
+              <div class="slice" id="slice" style="position:absolute;left:50%;top:18%;width:120px;height:170px;transform-origin:center;opacity:0;pointer-events:none;">
+                <!-- visual piece that'll fly out -->
+                <svg width="120" height="170" viewBox="0 0 120 170" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#fff0d6"/>
+                      <stop offset="100%" stop-color="#ffd9b0"/>
+                    </linearGradient>
+                    <linearGradient id="g2" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stop-color="#f5d7c8"/>
+                      <stop offset="100%" stop-color="#eebfa7"/>
+                    </linearGradient>
+                  </defs>
+                  <!-- frosting -->
+                  <path d="M60 6 C52 6, 18 22, 12 44 C8 58, 16 66, 16 66 L104 66 C104 66, 112 58, 108 44 C102 22, 68 6, 60 6 Z" fill="url(#g1)" stroke="#f2cfae" stroke-width="1"/>
+                  <!-- sponge body -->
+                  <path d="M16 66 L60 160 L104 66 Z" fill="url(#g2)" stroke="#d2a286" stroke-width="1"/>
+                </svg>
+              </div>
+
+              <div class="candles" aria-hidden="true">
+                <div class="candle"><div class="flame"></div></div>
+                <div class="candle"><div class="flame"></div></div>
+                <div class="candle"><div class="flame"></div></div>
+                <div class="candle"><div class="flame"></div></div>
+              </div>
             </div>
 
-            <div class="layer top frost" style="z-index:26">
-              <div class="frost-top" style="height:28px"></div>
-            </div>
-            <div class="layer mid left" style="z-index:24"></div>
-            <div class="layer mid right" style="z-index:22"></div>
+            <div class="plate-shadow"></div>
           </div>
-          <div class="plate-disc"></div>
+
+          <div class="confetti" id="confetti"></div>
+          <div class="balloon-wrap" id="balloons"></div>
         </div>
 
-        <div class="controls">
-          <div class="knife" role="img" aria-label="knife">
-            <div style="font-weight:700">🔪</div>
-            <div class="blade"></div>
-            <div style="font-size:13px;color:rgba(230,238,248,0.7);">Cutting Knife</div>
-          </div>
-          <div style="display:flex;gap:12px">
-            <button class="btn" id="cutBtn">Cut Cake</button>
-            <button class="btn secondary" id="resetBtn">Reset</button>
-          </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <button class="btn" id="resetBtn" style="background:linear-gradient(90deg,var(--accent),#ff8a8a);border:none;color:#071428;padding:10px 16px;border-radius:12px;font-weight:800;cursor:pointer">Reset</button>
+          <div style="color:rgba(230,238,248,0.7);font-size:13px">Tip: Tap / Click anywhere on the cake to cut at that point.</div>
         </div>
-
-        <!-- decorative confetti behind -->
-        <div class="confetti" id="confetti"></div>
-        <div class="balloon-wrap" id="balloons"></div>
       </div>
 
       <div class="panel">
@@ -130,10 +167,10 @@
         </div>
 
         <div style="display:flex;gap:12px;align-items:center;justify-content:space-between">
-          <div style="color:rgba(230,238,248,0.78)">Share the wish or refresh for another surprise.</div>
+          <div style="color:rgba(230,238,248,0.78)">Share or click <strong>Reset</strong> to try a new cut position.</div>
           <div style="display:flex;gap:8px">
-            <button class="btn" id="shareBtn">Share</button>
-            <button class="btn secondary" id="surpriseBtn">Surprise</button>
+            <button class="btn" id="shareBtn" style="background:linear-gradient(90deg,var(--accent),#ff8a8a);border:none;color:#071428;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer">Share</button>
+            <button class="btn" id="surpriseBtn" style="background:linear-gradient(90deg,#ffd166,#fff2c9);color:#0b1220;padding:10px 14px;border-radius:12px;font-weight:800;cursor:pointer">Surprise</button>
           </div>
         </div>
       </div>
@@ -141,146 +178,185 @@
   </div>
 
   <script>
-    // Utilities
-    const stage = document.getElementById('stage');
-    const cake = document.getElementById('cake');
-    const cutBtn = document.getElementById('cutBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const confettiContainer = document.getElementById('confetti');
+    const cakeInner = document.getElementById('cakeInner');
+    const halfLeft = document.getElementById('halfLeft');
+    const halfRight = document.getElementById('halfRight');
+    const slice = document.getElementById('slice');
+    const sliceEdge = document.getElementById('sliceEdge');
+    const confettiEl = document.getElementById('confetti');
     const balloonsWrap = document.getElementById('balloons');
+    const stage = document.getElementById('stage');
+    const wishCard = document.getElementById('wishCard');
 
-    // Create confetti pieces (hidden initially)
-    function createConfetti(count=40){
-      confettiContainer.innerHTML='';
-      const colors = ['#ff6b6b','#ffd166','#7cc6ff','#9ef5c1','#d6a4ff'];
+    // Helper to create confetti pieces
+    function createConfettiAt(xPct, yPct, count=36){
+      confettiEl.innerHTML = '';
+      const colors = ['#ff6b6b','#ffd166','#7cc6ff','#9ef5c1','#d6a4ff','#ffd8ea'];
+      const rect = confettiEl.getBoundingClientRect();
+      const originX = rect.left + rect.width*(xPct/100);
+      const originY = rect.top + rect.height*(yPct/100);
+
       for(let i=0;i<count;i++){
         const el = document.createElement('div');
-        el.className='confetti-piece';
+        el.className = 'confetti-piece';
         el.style.background = colors[i % colors.length];
-        el.style.left = (50 + (Math.random()-0.5)*60) + '%';
-        el.style.top = '40%';
-        confettiContainer.appendChild(el);
+        // place at origin
+        el.style.left = (xPct)+'%';
+        el.style.top = (yPct)+'%';
+        confettiEl.appendChild(el);
+
+        const angle = (Math.random()*360) * Math.PI/180;
+        const speed = 120 + Math.random()*220;
+        const vx = Math.cos(angle)*speed;
+        const vy = Math.sin(angle)*speed - 160;
+        el.animate([
+          { transform: 'translate(0px,0px) rotate(0deg)', opacity:1 },
+          { transform: `translate(${vx}px, ${vy}px) rotate(${Math.random()*720}deg)`, opacity:1 },
+          { transform: `translate(${vx*1.3}px, ${vy*1.7 + 200}px) rotate(${Math.random()*1080}deg)`, opacity:0 }
+        ], { duration: 1200 + Math.random()*1000, easing: 'cubic-bezier(.2,.9,.2,1)' });
       }
     }
 
-    // Create balloons (hidden initially)
-    function createBalloons(){
-      balloonsWrap.innerHTML='';
-      const types = ['blue','pink','yellow','green','blue','pink'];
+    // balloons from point
+    function launchBalloonsAt(xPct, yPct){
+      balloonsWrap.innerHTML = '';
+      const types = ['blue','pink','yellow','green','pink'];
+      const rect = balloonsWrap.getBoundingClientRect();
       for(let i=0;i<types.length;i++){
         const b = document.createElement('div');
         b.className = 'balloon ' + types[i];
-        // starting positions
-        b.style.left = (10 + i*12) + '%';
-        b.style.bottom = '-40px';
+        b.style.left = (xPct + (i-2)*6) + '%';
+        b.style.bottom = (100 - yPct) + '%';
         balloonsWrap.appendChild(b);
+        // animate rise
+        const delay = i*120;
+        const drift = (Math.random()-0.5)*120;
+        b.animate([
+          { transform: 'translateY(0px) scale(0.9) rotate(0deg)', opacity:0 },
+          { transform: `translateY(-520px) translateX(${drift}px) scale(1) rotate(${(Math.random()-0.5)*20}deg)`, opacity:1 }
+        ], { duration: 2400 + i*250 + Math.random()*600, delay, easing: 'cubic-bezier(.2,.9,.2,1)', fill:'forwards' });
       }
     }
 
-    // animate confetti burst
-    function burstConfetti(){
-      const pieces = Array.from(document.querySelectorAll('.confetti-piece'));
-      pieces.forEach((p, i)=>{
-        const angle = (Math.random()*120 - 60) * (Math.PI/180);
-        const speed = 200 + Math.random()*260;
-        const vx = Math.cos(angle) * speed;
-        const vy = -Math.sin(angle) * speed;
-        p.style.opacity = 1;
-        p.animate([
-          { transform: `translate(0px,0px) rotate(${Math.random()*360}deg)`, opacity:1 },
-          { transform: `translate(${vx}px, ${vy}px) rotate(${Math.random()*720}deg)`, opacity:1 },
-          { transform: `translate(${vx*1.6}px, ${vy*1.2 + 180}px) rotate(${Math.random()*1080}deg)`, opacity:0 }
-        ], { duration: 1600 + Math.random()*900, easing:'cubic-bezier(.2,.9,.2,1)' });
+    // Create crumb particles along cut
+    function emitCrumbsAt(px, py){
+      const container = cakeInner;
+      for(let i=0;i<12;i++){
+        const c = document.createElement('div');
+        c.className='crumb';
+        const size = 6 + Math.random()*10;
+        c.style.width = size + 'px';
+        c.style.height = (size*0.6) + 'px';
+        c.style.left = px + (Math.random()-0.5)*40 + 'px';
+        c.style.top = py + (Math.random()-0.5)*30 + 'px';
+        c.style.opacity = 1;
+        container.appendChild(c);
+        const vx = (Math.random()-0.5)*200;
+        const vy = -80 - Math.random()*220;
+        c.animate([
+          { transform: 'translate(0px,0px) rotate(0deg)', opacity:1 },
+          { transform: `translate(${vx}px, ${vy}px) rotate(${Math.random()*360}deg)`, opacity:0 }
+        ], { duration: 800 + Math.random()*900, easing: 'cubic-bezier(.2,.9,.2,1)', fill:'forwards' });
+        setTimeout(()=> c.remove(), 2000);
+      }
+    }
+
+    // Main cut handler
+    function handleCut(clientX, clientY){
+      // compute position relative to cakeInner
+      const rect = cakeInner.getBoundingClientRect();
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+      if(x < 10 || x > rect.width - 10) return; // edge guard
+
+      // normalize percent for confetti/balloons
+      const xPct = (x/rect.width)*100;
+      const yPct = (y/rect.height)*100;
+
+      // set halves widths via inline styles (left width = x, right width = rest)
+      halfLeft.style.width = x + 'px';
+      halfRight.style.width = (rect.width - x) + 'px';
+      halfRight.style.left = (x) + 'px';
+
+      // position the flying slice centered on cut
+      slice.style.left = (x - 60) + 'px';
+      slice.style.top = (y - 12) + 'px';
+      slice.style.opacity = 1;
+
+      // show a thin edge marker
+      sliceEdge.style.display = 'block';
+      sliceEdge.style.left = (x - 13) + 'px';
+      sliceEdge.style.height = rect.height + 'px';
+
+      // animate: add animate classes to halves and slice
+      cakeInner.classList.add('cutting');
+      // small timeout lets DOM apply widths first
+      requestAnimationFrame(()=>{
+        document.querySelector('.half-left').classList.add('animate');
+        document.querySelector('.half-right').classList.add('animate');
+        slice.classList.add('animate');
       });
+
+      // emit crumbs at cut
+      emitCrumbsAt(x, y);
+
+      // confetti & balloons originate from cut point
+      createConfettiAt(xPct, yPct, 48);
+      launchBalloonsAt(xPct, yPct);
+
+      // reveal wish after animation
+      setTimeout(()=>{
+        stage.classList.add('showWish');
+      }, 600);
     }
 
-    // animate balloons rising and wobbling
-    function launchBalloons(){
-      const bls = Array.from(document.querySelectorAll('.balloon'));
-      bls.forEach((b, i)=>{
-        b.style.opacity = 1;
-        const delay = i * 120;
-        // random horizontal drift
-        const drift = (Math.random()-0.5) * 120;
-        b.animate([
-          { transform: `translateY(0px) scale(0.9)`, left: b.style.left, opacity:0 },
-          { transform: `translateY(-520px) translateX(${drift}px) scale(1)`, left: b.style.left, opacity:1 }
-        ], { duration: 2200 + i*300 + Math.random()*800, delay, easing:'cubic-bezier(.2,.9,.2,1)', fill:'forwards' });
-        // tiny rotation/wobble loop
-        b.animate([
-          { transform: 'rotate(-6deg)' },
-          { transform: 'rotate(6deg)' },
-          { transform: 'rotate(-6deg)' }
-        ], { duration: 1800 + Math.random()*1000, delay, iterations: Infinity, easing:'ease-in-out' });
-      });
-    }
-
-    // Cut action
-    function cutCake(){
-      if(stage.classList.contains('cut')) return;
-      stage.classList.add('cut');
-      // split layers: add classes that will move left/right
-      const left = document.querySelector('.layer.mid.left');
-      const right = document.querySelector('.layer.mid.right');
-      left.classList.add('left');
-      right.classList.add('right');
-
-      // create and burst confetti & balloons
-      createConfetti(48);
-      createBalloons();
-      setTimeout(()=>{ burstConfetti(); launchBalloons(); }, 220);
-
-      // small scale pop of cake
-      cake.animate([
-        { transform: 'scale(1)' },
-        { transform: 'scale(1.04)' },
-        { transform: 'scale(1)' }
-      ], { duration: 700, easing:'cubic-bezier(.2,.9,.2,1)' });
-
-      // make wish visible by adding cut (css handles)
-    }
+    // click / touch handling
+    cakeInner.addEventListener('click', (ev)=>{
+      handleCut(ev.clientX, ev.clientY);
+    });
+    cakeInner.addEventListener('touchstart', (ev)=>{
+      const t = ev.touches[0];
+      handleCut(t.clientX, t.clientY);
+    });
 
     // Reset
-    function resetAll(){
-      stage.classList.remove('cut');
-      const left = document.querySelector('.layer.mid.left');
-      const right = document.querySelector('.layer.mid.right');
-      if(left) left.classList.remove('left');
-      if(right) right.classList.remove('right');
-      confettiContainer.innerHTML='';
-      balloonsWrap.innerHTML='';
-    }
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
+      // reset widths and visual pieces
+      halfLeft.style.width = '';
+      halfRight.style.width = '';
+      halfRight.style.left = '';
+      slice.style.opacity = 0; slice.classList.remove('animate');
+      sliceEdge.style.display = 'none';
+      document.querySelector('.half-left').classList.remove('animate');
+      document.querySelector('.half-right').classList.remove('animate');
+      cakeInner.classList.remove('cutting');
+      stage.classList.remove('showWish');
+      confettiEl.innerHTML = '';
+      balloonsWrap.innerHTML = '';
+      // clear crumbs
+      Array.from(cakeInner.querySelectorAll('.crumb')).forEach(n=>n.remove());
+    });
 
-    // Share (simple)
-    function shareWish(){
-      const text = encodeURIComponent('Happy Birthday Shweta! 🎉\nWishing you a wonderful day filled with love & cake.');
-      const url = `https://twitter.com/intent/tweet?text=${text}`;
-      window.open(url, '_blank');
-    }
-
-    // Surprise changes the subtitle randomly
-    const surpriseMessages = [
-      'May your year be as sweet as this cake!',
-      'Wishing you laughter, love, and endless cake slices!',
-      'Here’s to bright days and cozy nights — enjoy every moment.',
-      'Sparkle more, worry less. Happy Birthday!' 
-    ];
-    function surprise(){
+    // share and surprise
+    document.getElementById('shareBtn').addEventListener('click', ()=>{
+      const text = encodeURIComponent('Happy Birthday Shweta! 🎉\nWishing you a wonderful day.');
+      window.open(`https://twitter.com/intent/tweet?text=${text}`,'_blank');
+    });
+    document.getElementById('surpriseBtn').addEventListener('click', ()=>{
       const w = document.getElementById('wishSub');
-      w.textContent = surpriseMessages[Math.floor(Math.random()*surpriseMessages.length)];
-      // tiny pulse
-      w.animate([{ transform:'scale(1)' },{ transform:'scale(1.03)' },{ transform:'scale(1)' }], { duration:500 });
-    }
+      const msgs = ['May your year be as sweet as this cake!', 'Wishing you laughter, love, and endless cake slices!', 'Here’s to bright days and cozy nights — enjoy every moment.', 'Sparkle more, worry less. Happy Birthday!'];
+      w.textContent = msgs[Math.floor(Math.random()*msgs.length)];
+      w.animate([{ transform:'translateY(0) scale(1)' },{ transform:'translateY(-6px) scale(1.02)' },{ transform:'translateY(0) scale(1)' }], { duration:400 });
+    });
 
-    // Events
-    cutBtn.addEventListener('click', cutCake);
-    resetBtn.addEventListener('click', resetAll);
-    document.getElementById('shareBtn').addEventListener('click', shareWish);
-    document.getElementById('surpriseBtn').addEventListener('click', surprise);
-
-    // initial create so styles are ready if user cuts quickly
-    createConfetti(0);
-    createBalloons();
+    // prevent double cuts
+    let locked = false;
+    function handleCutWithLock(x,y){ if(locked) return; locked=true; handleCut(x,y); setTimeout(()=>locked=false,1200); }
+    // modify event listeners to use lock
+    cakeInner.removeEventListener('click', ()=>{});
+    cakeInner.addEventListener('click', (ev)=> handleCutWithLock(ev.clientX, ev.clientY));
+    cakeInner.removeEventListener('touchstart', ()=>{});
+    cakeInner.addEventListener('touchstart', (ev)=>{ const t=ev.touches[0]; handleCutWithLock(t.clientX,t.clientY); });
   </script>
 </body>
 </html>
