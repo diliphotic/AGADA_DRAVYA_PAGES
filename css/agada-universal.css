@@ -27,7 +27,7 @@ body{
     .tq-name,.dept-name,.dist-name{ color:#fff;font-size:12px;font-weight:bold; }
 
     /* ================= LAYOUT ================= */
-    .container{ max-width:1000px;margin:auto;padding:40px 20px 20px;}
+    .container{ max-width:1000px;margin:auto;padding:20px 20px 20px;}
 
     .drug-title{
       text-align:center;
